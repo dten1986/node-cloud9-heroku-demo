@@ -1,0 +1,15 @@
+{
+  "name": "vidperdiem",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node web.js"
+  },
+  "dependencies": {
+    "express": "3.4.4",
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.2.x"
+  }
+}
