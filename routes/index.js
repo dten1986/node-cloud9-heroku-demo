@@ -3,6 +3,7 @@
  * GET home page.
  */
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+module.exports = function(app) {
+//  app.get('/handler', require('./handler').get);
+  app.post('/handler', require('./handler').post);
 };

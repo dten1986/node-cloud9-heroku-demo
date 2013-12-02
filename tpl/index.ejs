@@ -14,7 +14,18 @@
 	</form>
 	
 	<script>
-	
+
+	/*
+	    $('.submit').on('click', function() {
+	        fs.writeFile("/test.txt", "Привет!", function(err) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log("Файл сохранен.");
+                }
+            });
+	    });	
+	/*	
 		$('.submit').on('click', function() {
 			var $value = $('.input').val();
 			if ($value) {
@@ -38,7 +49,7 @@
 			alert('123');
 		
 		});
-	/*	
+	
 		$(document.forms['formm']).on('submit', function() {
 			$.ajax({
 				url: '/',
