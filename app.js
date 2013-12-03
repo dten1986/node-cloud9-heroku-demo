@@ -11,18 +11,19 @@ app.set('view engine', 'ejs');
 
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.methodOverride());
+//app.use(express.methodOverride());
+app.use(express.bodyParser());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-if ('development' == app.get('env')) {
+//if ('development' == app.get('env')) {
   app.use(express.errorHandler());
-}
+//}
 
 // Routes
-app.get('/', require('./routes/home').index);
-app.post('/items/add', require('./routes/items').add);
-app.get('/items/remove/:id', require('./routes/items').remove);
+app.get('/', require('./controllers/home').index);
+app.post('/items/add', require('./controllers/items').add);
+app.get('/items/remove/:id', require('./controllers/items').remove);
 
 // Starting server
 http.createServer(app).listen(app.get('port'), function(){

@@ -5,25 +5,42 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
+<script>/*
+    $.getJSON('/base/list.json', {}, function(data) {
+      //  for(i=0;i<data.length;i++) 
+      console.log(data);
+    });
+    
+    var x = 'Test header';*/
+</script>
 <button class="remove">Удалить</button>
 	<h1>The List</h1>
-	<block></block>
-	<form name="formm">
-		<input class="input" placeholder="What do you wish?.." />
+	<% block('header', "Test header2") %>
+	<h2><%=blocks.header %></h2>
+
+	<form class="form">
+		<input name="input" class="input" placeholder="What do you wish?.." />
 		<button type="submit" class="submit">Submit</button>
 	</form>
 	
 	<script>
+		
+		$('.form').on('submit', function() {
+			$.ajax({
+				url: '/items/add',
+				method: 'POST',
+				data: $(this).serialize(),
+				complete: function() {
+				    console.log(this);
+				}
+			});
+			return false;
+		});
+	
 
-	/*
+/*
 	    $('.submit').on('click', function() {
-	        fs.writeFile("/test.txt", "Привет!", function(err) {
-                if(err) {
-                    console.log(err);
-                } else {
-                    console.log("Файл сохранен.");
-                }
-            });
+
 	    });	
 	/*	
 		$('.submit').on('click', function() {
