@@ -14,6 +14,8 @@ exports.add = function(req, res) {
   //  console.log(data);
 
     model.saveData(data);
+    
+    res.end();
 };
 
 exports.remove = function(req, res) {
