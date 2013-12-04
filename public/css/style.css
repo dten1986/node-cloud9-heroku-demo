@@ -7,7 +7,7 @@ a {
   color: #00B7FF;
 }
 
-.b-check:checked +.value
+.checkbox:checked +.text
 	{
 	text-decoration: line-through;
 	}

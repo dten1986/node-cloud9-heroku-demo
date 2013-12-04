@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<button class="remove">Удалить</button>
+<!-- <button class="remove">Удалить</button> -->
 	<h1>The List</h1>
 	<% block('header', "Test header2") %>
 	<h2><%=blocks.header %></h2>
@@ -18,37 +18,21 @@
 	</form>
 	
 	<script>
-/*	
-    	$.getJSON( "ajax/test.json", function( data ) {
-            var items = [];
-            $.each( data, function( key, val ) {
-                items.push( "<li id='" + key + "'>" + val + "</li>" );
-            });
-    
-            $( "<ul/>", {
-                "class": "my-new-list",
-                html: items.join( "" )
-            ).appendTo( "body" );
-        });
-    	
-*/		
+	
     	$.getJSON('/items/list', function(data) {
 	         console.log(data);
-	        $(data).each(function() {
+	        $(data).each(function(num) {
 	   //         console.log(this);
-	            var list = '<li>' +
-                                '<input type="checkbox">' +
+	            var item = '<li class="item_no_' + num + '">' +
+                                '<input type="checkbox" class="checkbox">' +
                                     '<span>' + this.date + '</span>' +
-                                    '<span>' + this.text + '</span>' +
-                                    '<button>Remove</button>' +
+                                    '<span class="text">' + this.text + '</span>' +
+                                    '<button class="remove">Remove</button>' +
                                 '</input>' +
                             '</li>';
-                $(list).appendTo('.list-wrapper');   
+                $(item).appendTo('.list-wrapper');   
 	        });
-                            
 	    });
-		
-//		console.log(item); 
 		  
 		$('.form').on('submit', function() {
 			$.ajax({
@@ -61,47 +45,16 @@
 			});
 			return false;
 		});
+		
+		$('.remove').on('click', function() {
+		    console.log(this);
+		    
+		});
+		
+		if ('checkbox:checked') {
+		    alert('123!');
+		};
  
-        
-/*
-	    $('.submit').on('click', function() {
-
-	    });	
-	
-		$('.submit').on('click', function() {
-			var $value = $('.input').val();
-			if ($value) {
-				if (confirm('Добавить строку?')) {
-					$value = $('.input').val();
-					var content = 	'<div class="string">' +
-										'<input class="b-check" type="checkbox">' +
-											'<span class="value">' + $value + '</span>' +
-										'</input>' +
-										'<button class="remove">Удалить</button>' +
-									'</div>';
-					$(content).insertAfter('h1');
-					$('.input').val('');
-				}
-			} else {
-				alert('Пустая строка');
-			};
-		});
-		
-		$('.remove').click(function() {
-			alert('123');
-		
-		});
-	
-		$(document.forms['formm']).on('submit', function() {
-			$.ajax({
-				url: '/',
-				method: 'POST',
-				data: form.serialize(),
-				complete: function() {
-				}
-			});
-		});
-	*/	
 	</script>
 	
 </body>
