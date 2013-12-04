@@ -2,29 +2,54 @@
 <html>
 <head>
 	<script src="/bower/bower_components/jquery/jquery.js"></script>
+	<script src="/bower/bower_components/underscore/underscore.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
-<script>/*
-    $.getJSON('/base/list.json', {}, function(data) {
-      //  for(i=0;i<data.length;i++) 
-      console.log(data);
-    });
-    
-    var x = 'Test header';*/
-</script>
+
 <button class="remove">Удалить</button>
 	<h1>The List</h1>
 	<% block('header', "Test header2") %>
 	<h2><%=blocks.header %></h2>
-
+    <ul class="list-wrapper"></ul>
 	<form class="form">
 		<input name="input" class="input" placeholder="What do you wish?.." />
 		<button type="submit" class="submit">Submit</button>
 	</form>
 	
 	<script>
+/*	
+    	$.getJSON( "ajax/test.json", function( data ) {
+            var items = [];
+            $.each( data, function( key, val ) {
+                items.push( "<li id='" + key + "'>" + val + "</li>" );
+            });
+    
+            $( "<ul/>", {
+                "class": "my-new-list",
+                html: items.join( "" )
+            ).appendTo( "body" );
+        });
+    	
+*/		
+    	$.getJSON('/items/list', function(data) {
+	         console.log(data);
+	        $(data).each(function() {
+	   //         console.log(this);
+	            var list = '<li>' +
+                                '<input type="checkbox">' +
+                                    '<span>' + this.date + '</span>' +
+                                    '<span>' + this.text + '</span>' +
+                                    '<button>Remove</button>' +
+                                '</input>' +
+                            '</li>';
+                $(list).appendTo('.list-wrapper');   
+	        });
+                            
+	    });
 		
+//		console.log(item); 
+		  
 		$('.form').on('submit', function() {
 			$.ajax({
 				url: '/items/add',
@@ -36,13 +61,13 @@
 			});
 			return false;
 		});
-	
-
+ 
+        
 /*
 	    $('.submit').on('click', function() {
 
 	    });	
-	/*	
+	
 		$('.submit').on('click', function() {
 			var $value = $('.input').val();
 			if ($value) {
