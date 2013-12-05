@@ -28,11 +28,25 @@
     	                doneState = 'class="m-done"';
     	                checkState = 'checked';
     	            };
+    	        //   
+    	            var validDate = new Date(this.date),
+    	                monthCorrector = '',
+    	                minuteCorrector = '';
     	            
-    	            var item = '<li id="' + this.id + '" class="item_no_' + num + '">' +
+    	            if (validDate.getMonth() < 9) {
+    	                monthCorrector = '0';
+    	            };
+    	            
+    	            if (validDate.getMinutes() < 10) {
+    	                minuteCorrector = '0';
+    	            };
+    	                
+    	            var  realDate = 'Добавлено ' + validDate.getDate() + '-' + monthCorrector + (validDate.getMonth() + 1) + '-' + validDate.getFullYear() + ' в ' + validDate.getHours() + ':' + minuteCorrector + validDate.getMinutes() + ' ',
+    	            
+    	                item = '<li id="' + this.id + '" class="item_no_' + num + '">' +
                                     '<input type="checkbox" class="checkbox" ' + checkState + '>' +
-                                    '<span ' + doneState + '>' + this.date + '</span>' +
-                                    '<span class="text" ' + doneState + '>' + this.text + '</span>' +
+                                    '<span ' + doneState + '>' + realDate + '</span>' +
+                                    '<span class="text" ' + doneState + '>&laquo;' + this.text + '&raquo;</span>' +
                                     '<button class="remove">Remove</button>' +
                                 '</li>';
                     $(item).appendTo('.list-wrapper');   
