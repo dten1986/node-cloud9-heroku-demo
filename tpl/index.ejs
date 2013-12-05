@@ -51,14 +51,14 @@
 		});
 		
 	    $('.list-wrapper').on('click', '.remove', function() {
-	//	    console.log($(this).parent().attr('id'));
+		    console.log($(this).parent().attr('id'));
 	        var remID = $(this).parent().attr('id');
 		    $.ajax({
 		       url: '/items/remove/',
 		       method: 'POST',
-		       data: $(this).parent().attr('id'),
+		       data: {id:remID },
 		       complete: function() {
-		           
+		           getList();
 		       }
 		   });
 	   });

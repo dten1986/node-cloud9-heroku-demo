@@ -20,6 +20,19 @@ exports.add = function(req, res) {
 
 exports.remove = function(req, res) {
     
+  //  console.log(req.body.id);
+    var data = model.loadData();
+    for (var i=0; i<data.length; i++) {
+        if (data[i].id == req.body.id) {
+            data.splice(i, 1);
+           // delete data[i];
+            console.log(data);
+        }  
+    };
+    
+    model.saveData(data);
+    
+    res.end();
 };
 
 exports.list = function(req, res) {

@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.get('/', require('./controllers/home').index);
 app.post('/items/add', require('./controllers/items').add);
-app.get('/items/remove/:id', require('./controllers/items').remove);
+app.post('/items/remove/', require('./controllers/items').remove);
 app.get('/items/list', require('./controllers/items').list);
 
 // Starting server
