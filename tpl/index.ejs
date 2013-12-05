@@ -19,14 +19,15 @@
 	
 	<script>
 	    function getList() {
+	        $('.list-wrapper').empty();
         	$.getJSON('/items/list', function(data) {
     	        $(data).each(function(num) {
     	   
-    	            var item = '<li class="item_no_' + num + '">' +
+    	            var item = '<li id="' + this.id + '" class="item_no_' + num + '">' +
                                     '<input type="checkbox" class="checkbox">' +
                                         '<span>' + this.date + '</span>' +
                                         '<span class="text">' + this.text + '</span>' +
-                                        '<button class="remove" onClick="removeClicker()">Remove</button>' +
+                                        '<button class="remove">Remove</button>' +
                                     '</input>' +
                                 '</li>';
                     $(item).appendTo('.list-wrapper');   
@@ -42,7 +43,6 @@
 				method: 'POST',
 				data: $(this).serialize(),
 				complete: function() {
-				    $('.list-wrapper').empty();
 				    getList();
 				}
 			});
@@ -50,11 +50,18 @@
 			return false;
 		});
 		
-	
-		
-	   function removeClicker() {
-	       alert('1234');
-	   };
+	    $('.list-wrapper').on('click', '.remove', function() {
+	//	    console.log($(this).parent().attr('id'));
+	        var remID = $(this).parent().attr('id');
+		    $.ajax({
+		       url: '/items/remove/',
+		       method: 'POST',
+		       data: $(this).parent().attr('id'),
+		       complete: function() {
+		           
+		       }
+		   });
+	   });
  
 	</script>
 	
