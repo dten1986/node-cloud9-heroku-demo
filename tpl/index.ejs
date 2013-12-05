@@ -25,7 +25,7 @@
     	            var doneState = '',
     	                checkState = '';
     	            if (this.done == true) {
-    	                doneState = 'class="m-done"';
+    	                doneState = 'm-done';
     	                checkState = 'checked';
     	            };
     	        //   
@@ -45,8 +45,8 @@
     	            
     	                item = '<li id="' + this.id + '" class="item_no_' + num + '">' +
                                     '<input type="checkbox" class="checkbox" ' + checkState + '>' +
-                                    '<span ' + doneState + '>' + realDate + '</span>' +
-                                    '<span class="text" ' + doneState + '>&laquo;' + this.text + '&raquo;</span>' +
+                                    '<span class="date ' + doneState + '">' + realDate + '</span>' +
+                                    '<span class="text ' + doneState + '">&laquo;' + this.text + '&raquo;</span>' +
                                     '<button class="remove">Remove</button>' +
                                 '</li>';
                     $(item).appendTo('.list-wrapper');   
