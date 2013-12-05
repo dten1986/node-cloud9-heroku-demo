@@ -7,7 +7,12 @@ a {
   color: #00B7FF;
 }
 
-.checkbox:checked +.text
+.remove.m-done
+    {
+    text-decoration: none;
+    }
+
+.m-done
 	{
 	text-decoration: line-through;
 	}

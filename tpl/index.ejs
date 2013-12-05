@@ -6,11 +6,11 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
-
-<!-- <button class="remove">Удалить</button> -->
 	<h1>The List</h1>
+<!--
 	<% block('header', "Test header2") %>
 	<h2><%=blocks.header %></h2>
+-->
     <ul class="list-wrapper"></ul>
 	<form class="form">
 		<input name="input" class="input" placeholder="What do you wish?.." />
@@ -19,20 +19,36 @@
 	
 	<script>
 	    function getList() {
-	        $('.list-wrapper').empty();
         	$.getJSON('/items/list', function(data) {
+        	    $('.list-wrapper').empty();
     	        $(data).each(function(num) {
-    	   
+    	            var doneState = '',
+    	                checkState = '';
+    	            if (this.done == true) {
+    	                doneState = 'class="m-done"';
+    	                checkState = 'checked';
+    	            };
+    	            
     	            var item = '<li id="' + this.id + '" class="item_no_' + num + '">' +
-                                    '<input type="checkbox" class="checkbox">' +
-                                        '<span>' + this.date + '</span>' +
-                                        '<span class="text">' + this.text + '</span>' +
-                                        '<button class="remove">Remove</button>' +
-                                    '</input>' +
+                                    '<input type="checkbox" class="checkbox" ' + checkState + '>' +
+                                    '<span ' + doneState + '>' + this.date + '</span>' +
+                                    '<span class="text" ' + doneState + '>' + this.text + '</span>' +
+                                    '<button class="remove">Remove</button>' +
                                 '</li>';
                     $(item).appendTo('.list-wrapper');   
     	        });
     	    });
+	    };
+	    
+	    function itemIdSend(address, itemID) {
+	        $.ajax({
+		        url: address,
+		        method: 'POST',
+		        data: {id: itemID},
+		        complete: function() {
+				    getList();
+				}
+		   });
 	    };
 	    
 	    getList();
@@ -51,19 +67,21 @@
 		});
 		
 	    $('.list-wrapper').on('click', '.remove', function() {
-		    console.log($(this).parent().attr('id'));
 	        var remID = $(this).parent().attr('id');
-		    $.ajax({
-		       url: '/items/remove/',
-		       method: 'POST',
-		       data: {id:remID },
-		       complete: function() {
-		           getList();
-		       }
-		   });
-	   });
- 
+		    itemIdSend('/items/remove/', remID);
+	    });
+	   
+	    $('.list-wrapper').on('click', '.checkbox', function() {
+	        var $this = $(this);
+	        var itemID = $(this).parent().attr('id');
+	        if ($this.is(':checked')) {
+	            $this.siblings().addClass('m-done');
+	        } else {
+	            $this.siblings().removeClass('m-done');
+	        };
+	        itemIdSend('/items/done/', itemID);
+	    });
+	   
 	</script>
-	
 </body>
 </html>

@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', require('./controllers/home').index);
 app.post('/items/add', require('./controllers/items').add);
 app.post('/items/remove/', require('./controllers/items').remove);
+app.post('/items/done/', require('./controllers/items').done);
 app.get('/items/list', require('./controllers/items').list);
 
 // Starting server
