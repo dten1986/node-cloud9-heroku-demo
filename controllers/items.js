@@ -11,10 +11,7 @@ exports.add = function(req, res) {
             done: false
     });
 
-  //  console.log(data);
-
     model.saveData(data);
-    
     res.end();
 };
 

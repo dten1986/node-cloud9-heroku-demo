@@ -7,17 +7,16 @@
 </head>
 <body>
 	<h1>The List</h1>
+<!--
+	<% block('header', "Test header2") %>
+	<h2><%=blocks.header %></h2>
+-->
     <ul class="list-wrapper"></ul>
+	<form class="form">
+		<input name="input" class="input" placeholder="What do you wish?.." />
+		<button type="submit" class="submit">Submit</button>
+	</form>
 	<div class="loading"></div>
-    <a href="#" class="login-link">Log in</a>
-    <form class="login-form">
-        <span class="login-title">Be authorized... be cool!</span>
-        <input type="text" name="user" placeholder="Usename">
-        <input type="password" name="pass" placeholder="Password">
-        <button type="submit">Ok</button>
-        <button type="reset">Return</button>
-    </form>
-    
 	<script>
 	    function getList() {
 	        $('.loading').show();
@@ -25,9 +24,11 @@
         	    $('.list-wrapper').empty();
     	        $(data).each(function(num) {
     	            
-    	            var doneState = '';
+    	            var doneState = '',
+    	                checkState = '';
     	            if (this.done == true) {
     	                doneState = 'm-done';
+    	                checkState = 'checked';
     	            };
     	           
     	            var validDate = new Date(this.date),
@@ -50,11 +51,13 @@
                     };
     	            
     	            var template = '<li id="{{=data.id}}" class="item_no_{{=number}}">' +
+                                    '<input type="checkbox" class="checkbox" {{=checked}}>' +
                                     '<span class="date {{=done}}">{{=date}}</span>' +
                                     '<span class="text {{=done}}">&laquo;{{=data.text }}&raquo;</span>' +
+                                    '<button class="remove">Remove</button>' +
                                 '</li>';
                     
-                    var item = _.template(template, {data: this, number: num, done: doneState, date: realDate});            
+                    var item = _.template(template, {data: this, number: num, checked: checkState, done: doneState, date: realDate});            
                     
                     $(item).appendTo('.list-wrapper');
                     $('.loading').hide();
@@ -75,32 +78,35 @@
 	    };
 	    
 	    getList();
-	    
-	    $('.login-link').on('click', function() {
-	        $('.loading').show();
-	        $('.login-form').show();
-	        return false;
-	    });
 		  
-		$('.login-form').on('submit', function() {
+		$('.form').on('submit', function() {
 			$.ajax({
-				url: '/login',
+				url: '/items/add',
 				method: 'POST',
 				data: $(this).serialize(),
 				complete: function() {
 				    getList();
-				    
-				    $('.login-form').hide();
 				}
 			});
 			
 			return false;
 		});
 		
-		$('.login-form').on('reset', function() {
-		    $('.loading').hide();
-		    $(this).hide();   
-		});
+	    $('.list-wrapper').on('click', '.remove', function() {
+	        var remID = $(this).parent().attr('id');
+		    itemIdSend('/items/remove/', remID);
+	    });
+	   
+	    $('.list-wrapper').on('click', '.checkbox', function() {
+	        var $this = $(this);
+	        var itemID = $(this).parent().attr('id');
+	        if ($this.is(':checked')) {
+	            $this.siblings().addClass('m-done');
+	        } else {
+	            $this.siblings().removeClass('m-done');
+	        };
+	        itemIdSend('/items/done/', itemID);
+	    });
 	   
 	</script>
 </body>

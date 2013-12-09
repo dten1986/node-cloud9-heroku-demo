@@ -22,6 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.get('/', require('./controllers/home').index);
+app.get('/edit', /*checkAuth,*/ require('./controllers/edit').edit);
+app.post('/login', /*checkAuth,*/ require('./controllers/edit').login);
 app.post('/items/add', require('./controllers/items').add);
 app.post('/items/remove/', require('./controllers/items').remove);
 app.post('/items/done/', require('./controllers/items').done);

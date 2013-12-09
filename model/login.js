@@ -1,15 +1,11 @@
 var fs = require('fs');
-var path = './base/list.json';
+var path = './base/login.json';
 
-exports.loadData = function() {
+exports.getUser = function() {
     var dataInString = fs.readFileSync(path, 'utf8');
     if (dataInString == '') {
         return [];
     } else {
         return JSON.parse(dataInString);
     }
-};
-
-exports.saveData = function(data) {
-    fs.writeFileSync(path, JSON.stringify(data));
 };
