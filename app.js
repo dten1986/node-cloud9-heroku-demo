@@ -13,6 +13,10 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 //app.use(express.methodOverride());
 app.use(express.bodyParser());
+
+app.use(express.cookieParser('secret'));
+app.use(express.cookieSession());
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -20,10 +24,21 @@ app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.errorHandler());
 //}
 
+// Authorisation check
+function checkAuth(req, res, next) {
+    if (!req.session.user_id) {
+        res.send('<span>You are not authorized to view this page</span>' +
+                 '<p><a href="/">Back</a></p>');
+    } else {
+        next();
+    }
+};
+
 // Routes
 app.get('/', require('./controllers/home').index);
-app.get('/edit', /*checkAuth,*/ require('./controllers/edit').edit);
-app.post('/login', /*checkAuth,*/ require('./controllers/edit').login);
+app.get('/edit', checkAuth, require('./controllers/edit').edit);
+app.post('/login', require('./controllers/edit').login);
+app.post('/logout', require('./controllers/edit').logout);
 app.post('/items/add', require('./controllers/items').add);
 app.post('/items/remove/', require('./controllers/items').remove);
 app.post('/items/done/', require('./controllers/items').done);

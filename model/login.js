@@ -9,3 +9,7 @@ exports.getUser = function() {
         return JSON.parse(dataInString);
     }
 };
+
+exports.saveSession = function(id) {
+    fs.writeFileSync('./base/sessions/session-' + id + '.json', JSON.stringify(id));
+};
